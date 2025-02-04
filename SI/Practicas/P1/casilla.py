@@ -8,4 +8,4 @@ class Casilla():
     
     def getCol (self):
         return self.col
-        
+

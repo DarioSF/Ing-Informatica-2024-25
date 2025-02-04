@@ -1,19 +1,35 @@
 import sys, pygame
 from casilla import *
 from mapa import *
+from aEstrella import *
 from pygame.locals import *
 
 
 MARGEN=5
 MARGEN_INFERIOR=60
-TAM=30
+TAM=25
 NEGRO=(0,0,0)
 HIERBA=(250, 180, 160)
 MURO=(30, 70, 140)
 AGUA=(173, 216, 230) 
 ROCA=(110, 75, 48)
-AMARILLO=(120, 60, 50) 
+AMARILLO=(255, 255, 0)
 
+# ---------------------------------------------------------------------
+# Parámetros de heurística
+#
+# nada
+# euclidea
+# manhattan
+# chebyshev
+# octile
+# octileV2
+# proy_minima
+#
+# Cambiar este valor en el main (parametro_heuristica) en la línea 84
+# ---------------------------------------------------------------------
+# Para cambiar epsilon ir a línea 85
+#
 # ---------------------------------------------------------------------
 # Funciones
 # ---------------------------------------------------------------------
@@ -64,12 +80,14 @@ def inic(mapi):
         
 # función principal
 def main():
-    pygame.init()    
-    
+    pygame.init()
+    verbose = True # para depurar, False evita los prints
+    parametro_heuristica = "nada" # nada, euclidea, manhattan, chebyshev, octile, octileV2
+    epsilon = 0.5 # cambiar
     reloj=pygame.time.Clock()
     
-    if len(sys.argv)==1: #si no se indica un mapa coge mapa.txt por defecto
-        file='mapa.txt'
+    if len(sys.argv)==1: #si no se indica un mapa coge mapa.txt por defecto (modifico por aquí el mapa a elegir en vez de por parámetro en Thonny)
+        file='mapaTraza.txt'
     else:
         file=sys.argv[-1]
          
@@ -114,12 +132,12 @@ def main():
                         camino=inic(mapi)
                         if pulsaBoton(mapi, pos)==1:
                             ###########################                                                 
-                            #coste, cal=llamar a A estrella             
+                            coste, cal = a_estrella_sub_epsilon(mapi, origen, destino, calcular_heuristica, calcular_costo, camino, parametro_heuristica, 0, verbose)           
                             if coste==-1:
                                 print('Error: No existe un camino válido entre origen y destino')
                         else:
                             ###########################                                                   
-                            #coste, cal=llamar a A estrella subepsilon                       
+                            coste, cal = a_estrella_sub_epsilon(mapi, origen, destino, calcular_heuristica, calcular_costo, camino, parametro_heuristica, epsilon, verbose)                       
                             if coste==-1:
                                 print('Error: No existe un camino válido entre origen y destino')
                             

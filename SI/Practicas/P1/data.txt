@@ -1,0 +1,6 @@
+nada 7.5 22
+euclidea 9 18
+manhattan 9 18
+chebyshev 9 18
+octile 9 18
+octileV2 9 18
